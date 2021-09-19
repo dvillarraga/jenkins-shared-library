@@ -11,9 +11,6 @@ def call(body) {
         options {
             withAWS(credentials: 'cloudformation', region: 'us-east-1')
         }
-        environment {
-            stackName = "${pipelineParams.stackName}"
-        }
         stages {
             stage('Template Validation') {
                 steps {
@@ -26,21 +23,9 @@ def call(body) {
             stage('Deploying Stack'){
                 steps{
                     script{
-                        try {
-                            def describeStack = cfnDescribe(stack:"${pipelineParams.stackName}")
-                        } catch (err) {
-                            if(err.toString().contains("Stack with id") && err.toString().contains("does not exist")){
-                                echo "All ok, lets create the stack"
-                            }else{
-                                echo "Ops, something failed"
-                                echo "Caught: ${err}"
-                                currentBuild.result = 'FAILURE'
-                            }
-                        }
-                        
+                        def deployStack = cfnUpdate(stack:"${pipelineParams.stackName}", file:"${pipelineParams.templateFile}", params:["AppTag=${pipelineParams.appTag}"], timeoutInMinutes:120, tags:["app=${pipelineParams.appTag}"], pollInterval:1000)
                     }
                 }
-
             }
         }
     }
