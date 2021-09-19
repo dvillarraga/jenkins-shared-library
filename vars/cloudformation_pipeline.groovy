@@ -19,9 +19,17 @@ def call(body) {
                 steps {
                     script{
                         def response = cfnValidate(file:"${pipelineParams.templateFile}")
-                        echo "Template Description: ${response.description}"    
+                        echo "Template Description: ${response.description}"
                     }
                 }
+            }
+            stage('Deploying Stack'){
+                steps{
+                    script{
+                        def describeStack = cfnDescribe(stack:"${pipelineParams.stackName}")
+                    }
+                }
+
             }
         }
     }
