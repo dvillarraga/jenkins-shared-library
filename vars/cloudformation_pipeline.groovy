@@ -10,8 +10,10 @@ def call(Map pipelineParams) {
         stages {
             stage('Template Validation') {
                 steps {
-                    def response = cfnValidate(file:"${pipelineParams.templateFile}")
-                    echo "Template Description: ${response.description}"
+                    script{
+                        def response = cfnValidate(file:"${pipelineParams.templateFile}")
+                        echo "Template Description: ${response.description}"    
+                    }
                 }
             }
         }
