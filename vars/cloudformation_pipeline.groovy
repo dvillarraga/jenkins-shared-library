@@ -26,7 +26,12 @@ def call(body) {
             stage('Deploying Stack'){
                 steps{
                     script{
-                        def describeStack = cfnDescribe(stack:"${pipelineParams.stackName}")
+                        try {
+                            def describeStack = cfnDescribe(stack:"${pipelineParams.stackName}")
+                        } catch (err) {
+                            echo "Caught: ${err}"
+                        }
+                        
                     }
                 }
 
