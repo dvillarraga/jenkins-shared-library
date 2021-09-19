@@ -29,7 +29,13 @@ def call(body) {
                         try {
                             def describeStack = cfnDescribe(stack:"${pipelineParams.stackName}")
                         } catch (err) {
-                            echo "Caught: ${err}"
+                            if(err.contains("Stack with id") && err.contains("does not exist")){
+                                echo "All ok, lets create the stack"
+                            }else{
+                                echo "Ops, something failed"
+                                echo "Caught: ${err}"
+                                currentBuild.result = 'FAILURE'
+                            }
                         }
                         
                     }
