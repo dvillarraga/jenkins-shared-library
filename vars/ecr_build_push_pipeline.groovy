@@ -42,7 +42,7 @@ def call(body) {
                     }
                     sh """
                     #!/bin/bash
-                    aws ecr get-login-password --region $region | docker login --username AWS --password-stdin $accountId.dkr.ecr.$region.amazonaws.com
+                    aws ecr get-login-password --region $region | docker login --username AWS --password-stdin "$accountId.dkr.ecr.$region.amazonaws.com"
                     """
                 }
             }
