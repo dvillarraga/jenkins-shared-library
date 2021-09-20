@@ -16,21 +16,27 @@ def call(body) {
                 steps {
                     script {
                         def appRepo = "${pipelineParams.appRepo}"
-                        def appName = "${pipelineParams.appName}"
+                        def branch = "${pipelineParams.branch}"
                     }
                     sh """
                     #!/bin/bash
-                    rm -rf $appName | true
+                    rm -rf app | true
+                    mkdir -p app
+                    cd app
                     git clone $appRepo
+                    git checkout $branch
                     """
                 }
             }
             stage('Building Image'){
+                script{
+                    def repoName = "${pipelineParams.repoName}"
+                }
                 steps{
                     sh """
                     #!/bin/bash
-                    docker image rm myimage | true
-                    docker build . -t myimage
+                    docker image rm $repoName | true
+                    docker build -t $repoName .
                     """
                 }
             }
@@ -39,10 +45,13 @@ def call(body) {
                     script {
                         def region = "${pipelineParams.region}"
                         def repoUri = "${pipelineParams.repoUri}"
+                        def repoName = "${pipelineParams.repoName}"
                     }
                     sh """
                     #!/bin/bash
                     aws ecr get-login-password --region $region | docker login --username AWS --password-stdin $repoUri
+                    docker tag $repoName:latest $repoUri/$repoName:latest
+                    docker push $repoUri/$repoName:latest
                     """
                 }
             }
