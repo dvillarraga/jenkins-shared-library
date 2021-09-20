@@ -14,9 +14,12 @@ def call(body) {
         stages {
             stage('Clone Source Project') {
                 steps {
+                    script {
+                        def appRepo = "${pipelineParams.appRepo}"
+                    }
                     sh """
                     #!/bin/bash
-                    git clone ${pipelineParams.appRepo}
+                    git clone $appRepo
                     """
                 }
             }
