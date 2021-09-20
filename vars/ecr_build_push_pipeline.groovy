@@ -29,6 +29,7 @@ def call(body) {
                 steps{
                     sh """
                     #!/bin/bash
+                    docker image rm myimage | true
                     docker build . -t myimage
                     """
                 }
