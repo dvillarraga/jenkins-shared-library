@@ -16,9 +16,11 @@ def call(body) {
                 steps {
                     script {
                         def appRepo = "${pipelineParams.appRepo}"
+                        def appName = "${pipelineParams.appName}"
                     }
                     sh """
                     #!/bin/bash
+                    rm -rf $appName | true
                     git clone $appRepo
                     """
                 }
@@ -27,7 +29,6 @@ def call(body) {
                 steps{
                     script {
                         def buildNumber = "${currentBuild.number}"
-                        def appName = "${pipelineParams.appName}"
                     }
                     sh """
                     #!/bin/bash
