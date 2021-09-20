@@ -38,11 +38,11 @@ def call(body) {
                 steps{
                     script {
                         def region = "${pipelineParams.region}"
-                        def accountId = "${pipelineParams.accountId}"
+                        def repoUri = "${pipelineParams.repoUri}"
                     }
                     sh """
                     #!/bin/bash
-                    aws ecr get-login-password --region $region | docker login --username AWS --password-stdin "$accountId.dkr.ecr.$region.amazonaws.com"
+                    aws ecr get-login-password --region $region | docker login --username AWS --password-stdin $repoUri
                     """
                 }
             }
