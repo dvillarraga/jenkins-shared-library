@@ -27,12 +27,9 @@ def call(body) {
             }
             stage('Building Image'){
                 steps{
-                    script {
-                        def appNameLowerCase = appName.toLowerCase()
-                    }
                     sh """
                     #!/bin/bash
-                    docker build . -t $appNameLowerCase
+                    docker build . -t myimage
                     """
                 }
             }
