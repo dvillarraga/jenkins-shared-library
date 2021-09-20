@@ -29,10 +29,10 @@ def call(body) {
                 }
             }
             stage('Building Image'){
-                script{
-                    def repoName = "${pipelineParams.repoName}"
-                }
                 steps{
+                    script{
+                        def repoName = "${pipelineParams.repoName}"
+                    }
                     sh """
                     #!/bin/bash
                     docker image rm $repoName | true
