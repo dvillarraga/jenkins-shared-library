@@ -3,7 +3,7 @@
 def call(body) {
     def pipelineParams= [:]
     def appRepo = ""
-    def branch = ""
+    def branchCheckout = ""
     def repoName = ""
     def region = ""
     def repoUri = ""
@@ -12,7 +12,7 @@ def call(body) {
     body()
 
     appRepo = pipelineParams.appRepo
-    branch = pipelineParams.branch
+    branchCheckout = pipelineParams.branch
     repoName = pipelineParams.repoName
     region = pipelineParams.region
     repoUri = pipelineParams.repoUri
@@ -31,7 +31,7 @@ def call(body) {
                     mkdir -p app
                     cd app
                     git clone $appRepo
-                    git checkout $branch
+                    git checkout $branchCheckout
                     """
                 }
             }
