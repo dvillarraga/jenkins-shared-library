@@ -27,12 +27,9 @@ def call(body) {
             }
             stage('Building Image'){
                 steps{
-                    script {
-                        def buildNumber = "${currentBuild.number}"
-                    }
                     sh """
                     #!/bin/bash
-                    docker build . -t $appName-$buildNumber
+                    docker build . -t $appName
                     """
                 }
             }
