@@ -7,7 +7,7 @@ def call(body) {
     body()
 
     pipeline {
-        agent any
+        agent { label 'SLAVE' }
         options {
             withAWS(credentials: 'cloudformation', region: 'us-east-1')
         }
