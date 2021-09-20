@@ -2,9 +2,20 @@
 
 def call(body) {
     def pipelineParams= [:]
+    def appRepo = ""
+    def branch = ""
+    def repoName = ""
+    def region = ""
+    def repoUri = ""
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = pipelineParams
     body()
+
+    appRepo = pipelineParams.appRepo
+    branch = pipelineParams.branch
+    repoName = pipelineParams.repoName
+    region = pipelineParams.region
+    repoUri = pipelineParams.repoUri
 
     pipeline {
         agent { label 'SLAVE' }
@@ -14,10 +25,6 @@ def call(body) {
         stages {
             stage('Clone Source Project') {
                 steps {
-                    script {
-                        def appRepo = "${pipelineParams.appRepo}"
-                        def branch = "${pipelineParams.branch}"
-                    }
                     sh """
                     #!/bin/bash
                     rm -rf app | true
@@ -30,9 +37,6 @@ def call(body) {
             }
             stage('Building Image'){
                 steps{
-                    script{
-                        def repoName = "${pipelineParams.repoName}"
-                    }
                     sh """
                     #!/bin/bash
                     docker image rm $repoName | true
@@ -42,11 +46,6 @@ def call(body) {
             }
             stage('Pushing Image'){
                 steps{
-                    script {
-                        def region = "${pipelineParams.region}"
-                        def repoUri = "${pipelineParams.repoUri}"
-                        def repoName = "${pipelineParams.repoName}"
-                    }
                     sh """
                     #!/bin/bash
                     aws ecr get-login-password --region $region | docker login --username AWS --password-stdin $repoUri
