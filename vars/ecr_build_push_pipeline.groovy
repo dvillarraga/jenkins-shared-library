@@ -23,6 +23,30 @@ def call(body) {
                     """
                 }
             }
+            stage('Building Image'){
+                steps{
+                    script {
+                        def buildNumber = "${currentBuild.number}"
+                        def appName = "${pipelineParams.appName}"
+                    }
+                    sh """
+                    #!/bin/bash
+                    docker build . -t $appName-$buildNumber
+                    """
+                }
+            }
+            stage('Pushing Image'){
+                steps{
+                    script {
+                        def region = "${pipelineParams.region}"
+                        def accountId = "${pipelineParams.accountId}"
+                    }
+                    sh """
+                    #!/bin/bash
+                    aws ecr get-login-password --region $region | docker login --username AWS --password-stdin $accountId.dkr.ecr.$region.amazonaws.com
+                    """
+                }
+            }
         }
     }
 }
