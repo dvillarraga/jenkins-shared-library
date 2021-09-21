@@ -30,8 +30,8 @@ def call(body) {
                     rm -rf app | true
                     mkdir -p app
                     cd app
-                    git clone $appRepo
-                    git checkout $branchCheckout
+                    git clone ${appRepo}
+                    git checkout ${branchCheckout}
                     """
                 }
             }
