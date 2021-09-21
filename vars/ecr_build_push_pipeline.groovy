@@ -54,7 +54,7 @@ def call(body) {
                     aws ecr get-login-password --region $region | docker login --username AWS --password-stdin $repoUri
                     cd app
                     cd \$(ls -d */|head -n 1)
-                    versionApp=$(<.version)
+                    versionApp=\$(<.version)
                     docker tag $repoName:latest $repoUri/$repoName:$versionApp
                     docker push $repoUri/$repoName:$versionApp
                     """
