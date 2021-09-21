@@ -25,11 +25,15 @@ def call(body) {
         stages {
             stage('Clone Source Project') {
                 steps {
-                    echo "${branchCheckout}"
                     script{
                         sh """
                         #!/bin/bash
-                        rm -rf app | true && mkdir -p app && cd app && git clone $appRepo && git checkout $branchCheckout
+                        rm -rf app | true
+                        mkdir -p app
+                        cd app
+                        git clone $appRepo
+                        cd \$(ls -d */|head -n 1)
+                        git checkout $branchCheckout
                         """
                     }
                 }
