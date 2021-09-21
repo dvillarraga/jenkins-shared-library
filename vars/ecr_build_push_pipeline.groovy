@@ -29,11 +29,7 @@ def call(body) {
                     script{
                         sh """
                         #!/bin/bash
-                        rm -rf app | true
-                        mkdir -p app
-                        cd app
-                        git clone ${appRepo}
-                        git checkout ${branchCheckout}
+                        rm -rf app | true && mkdir -p app && cd app && git clone $appRepo && git checkout $branchCheckout
                         """
                     }
                 }
