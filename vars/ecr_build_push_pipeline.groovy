@@ -12,7 +12,7 @@ def call(body) {
     body()
 
     appRepo = pipelineParams.appRepo
-    branchCheckout = pipelineParams.branch
+    branchCheckout = pipelineParams.branchCheckout
     repoName = pipelineParams.repoName
     region = pipelineParams.region
     repoUri = pipelineParams.repoUri
