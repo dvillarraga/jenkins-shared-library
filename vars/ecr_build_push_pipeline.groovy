@@ -25,14 +25,16 @@ def call(body) {
         stages {
             stage('Clone Source Project') {
                 steps {
-                    sh """
-                    #!/bin/bash
-                    rm -rf app | true
-                    mkdir -p app
-                    cd app
-                    git clone ${appRepo}
-                    git checkout ${branchCheckout}
-                    """
+                    script{
+                        sh """
+                        #!/bin/bash
+                        rm -rf app | true
+                        mkdir -p app
+                        cd app
+                        git clone ${appRepo}
+                        git checkout ${branchCheckout}
+                        """
+                    }
                 }
             }
             stage('Building Image'){
