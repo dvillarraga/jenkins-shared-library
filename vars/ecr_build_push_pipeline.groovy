@@ -52,8 +52,11 @@ def call(body) {
                     sh """
                     #!/bin/bash
                     aws ecr get-login-password --region $region | docker login --username AWS --password-stdin $repoUri
-                    docker tag $repoName:latest $repoUri/$repoName:latest
-                    docker push $repoUri/$repoName:latest
+                    cd app
+                    cd \$(ls -d */|head -n 1)
+                    versionApp=$(<.version)
+                    docker tag $repoName:latest $repoUri/$repoName:$versionApp
+                    docker push $repoUri/$repoName:$versionApp
                     """
                 }
             }
