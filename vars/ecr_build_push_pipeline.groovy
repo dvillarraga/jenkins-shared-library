@@ -55,7 +55,7 @@ def call(body) {
                     cd app
                     cd \$(ls -d */|head -n 1)
                     versionApp=\$(<.version)
-                    docker tag $repoName:latest $repoUri/$repoName:$versionApp
+                    docker tag $repoName:latest $repoUri/$repoName:\$versionApp
                     docker push $repoUri/$repoName:$versionApp
                     """
                 }
