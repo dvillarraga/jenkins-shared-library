@@ -25,6 +25,7 @@ def call(body) {
         stages {
             stage('Clone Source Project') {
                 steps {
+                    echo "${branchCheckout}"
                     script{
                         sh """
                         #!/bin/bash
